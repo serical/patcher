@@ -39,9 +39,9 @@
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
-        <action id="com.sks.ClassesExportAction" class="ClassesExportAction" text="Export _Class">
+        <!--<action id="com.sks.ClassesExportAction" class="ClassesExportAction" text="Export _Class">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
-        </action>
+        </action>-->
     </actions>
 
 </idea-plugin>
