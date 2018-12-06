@@ -97,25 +97,34 @@ public class PatcherDialog extends JDialog {
             String compilerOutputUrl = instance.getCompilerOutputPath().getPath();
             // JavaWeb项目的WebRoot目录
             String webPath = "/" + webTextField.getText() + "/";
+            //项目模块的路径E:\git\moudlea\
+            String modulePath = module.getModuleFilePath().split(".idea/")[0];
             // 导出目录
             String exportPath = textField.getText() + webPath;
             for (int i = 0; i < model.getSize(); i++) {
                 VirtualFile element = model.getElementAt(i);
                 String elementName = element.getName();
                 String elementPath = element.getPath();
-                if (elementName.endsWith(".java")) {
+                if(elementPath.contains("/src/")){
+
+                    //获取到src下的文件名或者目录名，如果是java文件则文件名由.java替换为.class并到编译路径下取，如果是文件夹则直接去编译路径下的文件夹
                     String className = File.separator + elementPath.split("/src/")[1].replace(".java", ".class");
                     File from = new File(compilerOutputUrl + className);
                     File to = new File(exportPath + "WEB-INF" + File.separator + "classes" + className);
-                    FileUtil.copy(from, to);
-                } else {
+                    FileUtil.copyFileOrDir(from, to);
+                }else {
                     File from = new File(elementPath);
-                    File to = new File(exportPath + elementPath.split(webPath)[1]);
-                    FileUtil.copy(from, to);
+                    File to = null;
+                    if(elementPath.contains(webPath)){
+                        to = new File(exportPath + elementPath.split(webPath)[1]);
+                    }else{
+                        to = new File(textField.getText()+ File.separator+ elementPath.substring(modulePath.length()));
+                    }
+                    FileUtil.copyFileOrDir(from, to);
                 }
             }
         } catch (Exception e) {
-            Messages.showErrorDialog(this, "Create Patcher Error!", "Error");
+            Messages.showErrorDialog(this, "Create Patcher Error!"+e.getMessage(), "Error");
             e.printStackTrace();
         }
 

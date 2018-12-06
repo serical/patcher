@@ -118,7 +118,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="web"/>
+              <text value="WebRoot"/>
             </properties>
           </component>
         </children>
